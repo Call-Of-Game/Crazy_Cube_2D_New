@@ -137,6 +137,12 @@ public class JumpBetter : MonoBehaviour {
 			respawnPoint = col.transform.position;
 		}
 
+		
+		if(col.gameObject.tag == "AutoJump")
+		{
+		GetComponent<Rigidbody2D>().AddForce(new Vector2(0,JumpForce * 1.5f));
+		}
+
 	}
 
 	public void ResetGame()

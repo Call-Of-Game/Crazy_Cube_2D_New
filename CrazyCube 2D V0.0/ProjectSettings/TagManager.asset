@@ -21,6 +21,7 @@ TagManager:
   - Level2
   - Finger
   - Coin
+  - AutoJump
   layers:
   - Default
   - TransparentFX

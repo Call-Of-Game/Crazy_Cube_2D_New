@@ -171,6 +171,11 @@ public class FingerScript : MonoBehaviour {
 			Time.timeScale = 0f;
 		}
 
+		if(col.gameObject.tag == "AutoJump")
+		{
+		GetComponent<Rigidbody2D>().AddForce(new Vector2(0,JumpForce * 1.5f));
+		}
+
 	}
 
 	public void ResetGame()
@@ -178,31 +183,4 @@ public class FingerScript : MonoBehaviour {
 		//SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex + 1);	
 		SceneManager.LoadScene("Levels");
 	}
-
-    // void OnTriggerEnter2D(Collider2D fin)
-    // {
-	// 	if(fin.gameObject.tag == "Finger")
-	// 	{
-	// 		//PlayerPrefs.SetInt("Finger" , 1);	
-	// 		Finger.SetActive(true);
-	// 		Time.timeScale = 0f;
-	// 	}
-	// }
-	// }
-
-// 	bool IsGrounded()
-//     	 {
-//    	 	Vector2 position = transform.position;
-//     	Vector2 direction = Vector2.down;
-//     	float distance = 1.0f;
-    
-//     	RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-//     	if (hit.collider != null) 
-// 		 {
-//         return true;
-//     	 }
-    
-//         return false;
-	     
-//          }
 }
