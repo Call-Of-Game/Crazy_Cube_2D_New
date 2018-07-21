@@ -8,7 +8,7 @@ public class FingerScript : MonoBehaviour {
 	public Sprite RedSprite;
 	public Sprite WhiteSprite;
 	public Sprite BlueSprite;
-	public Vector3 respawnPoint;
+	//public Vector3 respawnPoint;
 	bool gronded = false;
 	public Transform groundCheck;
 	float groundRadius = 0.2f;
@@ -20,21 +20,29 @@ public class FingerScript : MonoBehaviour {
 	public float speed;
 	private float MoveInput;
 	public GameObject Finger;
+	public Transform respawn;
+	public Camera mainCamera;	
+	//public float Roatation;
 
 	  void Start()
 	  {
 		  PlayerRigidbody = GetComponent<Rigidbody2D>();
-		  respawnPoint = transform.position;
 	  }
-
-	void FixedUpdate()
-	{
+	  
+	void Update()
+	{ 
 		Vector2 myvel = PlayerRigidbody.velocity;
         myvel.x = speed; 	
         PlayerRigidbody.velocity = myvel; 
-		gronded = Physics2D.OverlapCircle(groundCheck.position , groundRadius , whatIsGround);
+		gronded = Physics2D.OverlapCircle(groundCheck.position,groundRadius , whatIsGround);
 
-		 int fingerCount = 0;
+		if(gronded && Input.GetKeyDown(KeyCode.Space) ) 
+		{
+			GetComponent<Rigidbody2D>().AddForce(new Vector2(0,JumpForce));
+			PlayerRigidbody.AddTorque(-90);
+		}
+
+		int fingerCount = 0;
         foreach (Touch touch in Input.touches)
 		 {
             if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled)
@@ -47,48 +55,19 @@ public class FingerScript : MonoBehaviour {
 		}
 
 
-		if(myvel.y < 0)
+		if(myvel.y < 0 )
 		{
 			PlayerRigidbody.AddForce(Vector2.down * fallingBoost);
 		}
-	}
 
-
-	void Update()
-	{
-		if(gronded && Input.GetKeyDown(KeyCode.Space))
+		if(Finger.gameObject == true && Input.GetKeyDown(KeyCode.Space) || Finger.gameObject == true && fingerCount > 0)
 		{
 			Finger.SetActive(false);
 			Time.timeScale = 1f;	
-			GetComponent<Rigidbody2D>().AddForce(new Vector2(0,JumpForce));
-		}
-
-		Vector2 myvel = PlayerRigidbody.velocity;
-        myvel.x = speed; 	
-        PlayerRigidbody.velocity = myvel; 
-		gronded = Physics2D.OverlapCircle(groundCheck.position , groundRadius , whatIsGround);
-
-		 int fingerCount = 0;
-        foreach (Touch touch in Input.touches)
-		 {
-            if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled)
-                fingerCount++;
-  
-         }
-        if (fingerCount > 0 && gronded)
-		{
-			GetComponent<Rigidbody2D>().AddForce(new Vector2(0,JumpForce));
-		}
-
-
-		if(myvel.y < 0)
-		{
-			PlayerRigidbody.AddForce(Vector2.down * fallingBoost);
 		}
        
 	}
-
-
+	  
     void OnTriggerEnter2D(Collider2D col)
     {
 		if(tag== "WhitePlayer")
@@ -99,8 +78,8 @@ public class FingerScript : MonoBehaviour {
 			CameraShake.shakeAmount = 0.3f;
             CameraShake.shakeDuration = 0.3f;
 			//GetComponent<PlayerController>().enabled = false;
-			//Invoke("ResetGame",1f);
-			transform.position = respawnPoint;		
+			Invoke("ResetGame",1f);
+			//transform.position = respawnPoint;		
 		}
 		}
 
@@ -112,8 +91,8 @@ public class FingerScript : MonoBehaviour {
 			CameraShake.shakeAmount = 0.3f;
             CameraShake.shakeDuration = 0.3f;
 			// GetComponent<PlayerController>().enabled = false;
-			// Invoke("ResetGame",1f);
-			transform.position = respawnPoint;	
+			Invoke("ResetGame",1f);
+			//transform.position = respawnPoint;	
 				
 		}
 		}
@@ -126,8 +105,8 @@ public class FingerScript : MonoBehaviour {
 			CameraShake.shakeAmount = 0.3f;
             CameraShake.shakeDuration = 0.3f;
 			// GetComponent<PlayerController>().enabled = false;
-			// Invoke("ResetGame",1f);
-			transform.position = respawnPoint;
+			 Invoke("ResetGame",1f);
+			//transform.position = respawnPoint;
 				
 		}
 		}
@@ -159,10 +138,10 @@ public class FingerScript : MonoBehaviour {
 
 		}
 
-		if(col.tag == "CheckPoint")
-		{
-			respawnPoint = col.transform.position;
-		}
+		// if(col.tag == "CheckPoint")
+		// {
+		// 	respawnPoint = col.transform.position;
+		// }
 
 		if(col.gameObject.tag == "Finger")
 		{
@@ -176,11 +155,16 @@ public class FingerScript : MonoBehaviour {
 		GetComponent<Rigidbody2D>().AddForce(new Vector2(0,JumpForce * 1.5f));
 		}
 
+		if(col.gameObject.tag == "Coin")
+			{
+			 PlayerPrefs.SetInt("Coin1" , 1);
+			}
 	}
+
 
 	public void ResetGame()
 	{
-		//SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex + 1);	
-		SceneManager.LoadScene("Levels");
+		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex );	
+		//SceneManager.LoadScene("Levels");
 	}
 }

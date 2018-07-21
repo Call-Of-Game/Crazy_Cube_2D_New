@@ -11,6 +11,11 @@ public class LoadingScript : MonoBehaviour {
 	[SerializeField] private float CurrentAmount;
 	[SerializeField] private float Speed;
 
+	// void Start()
+	// {
+	// 	LoadingBar.GetComponent<Image>().fillAmount = 0;
+	// }
+
 	void Update()
 	{
 		if(CurrentAmount < 100)
