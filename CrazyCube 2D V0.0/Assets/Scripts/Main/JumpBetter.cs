@@ -8,7 +8,7 @@ public class JumpBetter : MonoBehaviour {
 	public Sprite RedSprite;
 	public Sprite WhiteSprite;
 	public Sprite BlueSprite;
-	public Vector3 respawnPoint;
+	//public Vector3 respawnPoint;
 	bool gronded = false;
 	public Transform groundCheck;
 	float groundRadius = 0.2f;
@@ -19,11 +19,13 @@ public class JumpBetter : MonoBehaviour {
 	private Rigidbody2D PlayerRigidbody;
 	public float speed;
 	private float MoveInput;
+	public Transform respawn;
+	public Camera mainCamera;	
 
 	 void Start()
 	  {
 		  PlayerRigidbody = GetComponent<Rigidbody2D>();
-		  respawnPoint = transform.position;
+		  //respawnPoint = transform.position;
 	  }
 
 	void FixedUpdate()
@@ -72,8 +74,8 @@ public class JumpBetter : MonoBehaviour {
 			CameraShake.shakeAmount = 0.3f;
             CameraShake.shakeDuration = 0.3f;
 			//GetComponent<PlayerController>().enabled = false;
-			//Invoke("ResetGame",1f);
-			transform.position = respawnPoint;		
+			Invoke("ResetGame",1f);
+			//transform.position = respawnPoint;		
 		}
 		}
 
@@ -85,8 +87,8 @@ public class JumpBetter : MonoBehaviour {
 			CameraShake.shakeAmount = 0.3f;
             CameraShake.shakeDuration = 0.3f;
 			// GetComponent<PlayerController>().enabled = false;
-			// Invoke("ResetGame",1f);
-			transform.position = respawnPoint;	
+			Invoke("ResetGame",1f);
+			//transform.position = respawnPoint;	
 				
 		}
 		}
@@ -99,8 +101,8 @@ public class JumpBetter : MonoBehaviour {
 			CameraShake.shakeAmount = 0.3f;
             CameraShake.shakeDuration = 0.3f;
 			// GetComponent<PlayerController>().enabled = false;
-			// Invoke("ResetGame",1f);
-			transform.position = respawnPoint;
+			Invoke("ResetGame",1f);
+			//transform.position = respawnPoint;
 				
 		}
 		}
@@ -132,10 +134,10 @@ public class JumpBetter : MonoBehaviour {
 
 		}
 
-		if(col.tag == "CheckPoint")
-		{
-			respawnPoint = col.transform.position;
-		}
+		// if(col.tag == "CheckPoint")
+		// {
+		// 	respawnPoint = col.transform.position;
+		// }
 
 		
 		if(col.gameObject.tag == "AutoJump")
@@ -147,7 +149,7 @@ public class JumpBetter : MonoBehaviour {
 
 	public void ResetGame()
 	{
-		//SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex + 1);
-		SceneManager.LoadScene("Levels");
+		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+		//SceneManager.LoadScene("Levels");
 	}
 }
